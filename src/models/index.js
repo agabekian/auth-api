@@ -16,10 +16,6 @@ const clothes = clothesModel(sequelize, DataTypes);
 
 const userModel = require('../models/users/users.js');
 
-// module.exports = {
-//   db: sequelize,
-//   users: userModel(sequelize, DataTypes),
-// }
 
 module.exports = {
   db: sequelize,
