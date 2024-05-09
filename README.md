@@ -35,7 +35,7 @@ Tests
 * node db.js
 
 Tests
-* NA
+* N/A
 
 ### UML
 
