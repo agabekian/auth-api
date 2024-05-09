@@ -1,19 +1,19 @@
 'use strict';
 
 const express = require('express');
+const app = express();
+const cors = require('cors');
 
 const notFoundHandler = require('./error-handlers/404.js');
 const errorHandler = require('./error-handlers/500.js');
 const logger = require('./middleware/logger.js');
 
-const v1Routes = require('./routes/v1.js');
-// const v2Routes = require('./routes/v2.js');
-
-const app = express();
-const cors = require('cors');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
+
+const v1Routes = require('./routes/v1.js');
+const v2Routes = require('./routes/v2.js');
 
 app.use('/api/v1', v1Routes);
 // Catchalls
@@ -21,7 +21,7 @@ app.use('/api/v1', v1Routes);
 app.use('*', notFoundHandler);
 app.use(errorHandler);
 // Esoteric Resources
-const authRoutes = require('./routes/routes.js');
+const authRoutes = require('./routes/v2.js');
 
 // Routes
 app.use(authRoutes);

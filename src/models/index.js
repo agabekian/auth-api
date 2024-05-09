@@ -10,11 +10,20 @@ const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
 const testOrProduction = (environment === 'test' || environment === 'production');
 
 const sequelize = new Sequelize(DATABASE_URL, testOrProduction ? {logging: false} : {});
+
 const food = foodModel(sequelize, DataTypes);
 const clothes = clothesModel(sequelize, DataTypes);
+
+const userModel = require('../models/users/users.js');
+
+// module.exports = {
+//   db: sequelize,
+//   users: userModel(sequelize, DataTypes),
+// }
 
 module.exports = {
   db: sequelize,
   food: new Collection(food),
   clothes: new Collection(clothes),
+  users: userModel(sequelize, DataTypes), //??
 };
