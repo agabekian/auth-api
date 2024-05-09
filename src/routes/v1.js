@@ -17,11 +17,18 @@ router.param('model', (req, res, next) => {
 });
 
 router.get('/',greet );
-router.get('/:model', permissions("read"),bearerAuth, handleGetAll);
-router.get('/:model/:id',bearerAuth,permissions("read"), handleGetOne);
-router.post('/:model',bearerAuth,permissions("write"), handleCreate);
-router.put('/:model/:id', bearerAuth,permissions("edit"),handleUpdate);
+// router.get('/:model', permissions("read"),bearerAuth, handleGetAll);
+// router.get('/:model/:id',bearerAuth,permissions("read"), handleGetOne);
+// router.post('/:model',bearerAuth,permissions("write"), handleCreate);
+// router.put('/:model/:id', bearerAuth,permissions("edit"),handleUpdate);
+// router.delete('/:model/:id',bearerAuth,permissions("delete"), handleDelete);
+
+router.get('/:model',bearerAuth, handleGetAll);
+router.get('/:model/:id',bearerAuth, handleGetOne);
+router.post('/:model',bearerAuth,permissions("create"), handleCreate);
+router.put('/:model/:id', bearerAuth,permissions("update"),handleUpdate);
 router.delete('/:model/:id',bearerAuth,permissions("delete"), handleDelete);
+
 
 function greet(req,res) {res.send("Welcommmm")}
 

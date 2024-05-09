@@ -18,6 +18,7 @@ const v1Routes = require('./routes/v1.js');
 const v2Routes = require('./routes/v2.js');
 app.use('/api/v1', v1Routes);
 app.use('/api/v2', v2Routes);
+
 // const authRoutes = require('./routes/v2.js');
 // Routes
 // app.use(authRoutes);
