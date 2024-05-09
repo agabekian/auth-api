@@ -1,10 +1,11 @@
 'use strict';
 
 const express = require('express');
-const dataModules = require('../models');
-
 const router = express.Router();
-
+const dataModules = require('../models');
+const basicAuth = require('../middleware/basic.js')
+const bearerAuth = require('../middleware/bearer.js')
+const permissions = require('../middleware/acl.js')
 router.param('model', (req, res, next) => {
   const modelName = req.params.model;
   if (dataModules[modelName]) {
@@ -15,11 +16,14 @@ router.param('model', (req, res, next) => {
   }
 });
 
-router.get('/:model', handleGetAll);
-router.get('/:model/:id', handleGetOne);
-router.post('/:model', handleCreate);
-router.put('/:model/:id', handleUpdate);
-router.delete('/:model/:id', handleDelete);
+router.get('/',greet );
+router.get('/:model', permissions("read"),bearerAuth, handleGetAll);
+router.get('/:model/:id',bearerAuth,permissions("read"), handleGetOne);
+router.post('/:model',bearerAuth,permissions("write"), handleCreate);
+router.put('/:model/:id', bearerAuth,permissions("edit"),handleUpdate);
+router.delete('/:model/:id',bearerAuth,permissions("delete"), handleDelete);
+
+function greet(req,res) {res.send("Welcommmm")}
 
 async function handleGetAll(req, res) {
   let allRecords = await req.model.get();
