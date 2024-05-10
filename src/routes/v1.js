@@ -29,8 +29,7 @@ router.post('/:model',bearerAuth,permissions("create"), handleCreate);
 router.put('/:model/:id', bearerAuth,permissions("update"),handleUpdate);
 router.delete('/:model/:id',bearerAuth,permissions("delete"), handleDelete);
 
-
-function greet(req,res) {res.send("Welcommmm")}
+function greet(req,res) {res.send("Welcommen !")}
 
 async function handleGetAll(req, res) {
   let allRecords = await req.model.get();
