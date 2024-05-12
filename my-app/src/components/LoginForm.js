@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Import Axios library
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleLogin = () => {
-        // Mock authentication function (replace with your actual authentication logic)
-        if (username === 'user' && password === 'password') {
-            alert('Logged in successfully!');
-        } else {
-            setError('Invalid username or password');
+    const handleLogin = async () => {
+        console.log("button pushed");
+        alert("dddd")
+        try {
+            const response = await axios.post('/api/v2/signin', { username, password });
+            if (response.status === 200) {
+                alert('Logged in successfully!');
+                // You can redirect the user to another page after successful login
+            } else {
+                setError('Invalid username or password');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('An error occurred while logging in');
         }
     };
 
     return (
         <div>
-            <h2>Login</h2>
+            <h2>Log in</h2>
             {error && <p>{error}</p>}
             <form onSubmit={handleLogin}>
                 <div>
