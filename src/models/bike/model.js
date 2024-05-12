@@ -7,7 +7,7 @@ const bikeModel = (sequelize, DataTypes) => sequelize.define('Bike', {
     price: {type: DataTypes.INTEGER, required: true},
     type: {type: DataTypes.ENUM('road', 'mountain', 'hybrid', 'folding'), required: true},
     //status rare - vintage -etc
-    userId: {
+    customerId: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
