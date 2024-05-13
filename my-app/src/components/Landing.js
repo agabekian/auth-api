@@ -1,57 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-// Get the absolute path to the .env file
-
-
 const Landing = () => {
+    const REACT_APP_SERVER = "http://localhost:3000";
+
     const [items, setItems] = useState([]);
+    const [itemSize, setItemSize] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const REACT_APP_SERVER = "http://localhost:3000";
-    let itemsSize = 0;
+
+
 
     useEffect(() => {
-        console.log("what is",process.env.REACT_APP_SERVER)
-        const fetchItems = async () => {
-            try {
-                // const token = "localStorage.getItem('accessToken'); // Retrieve the bearer token from localStorage"
-                const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFyYSIsImlhdCI6MTcxNTU2ODQ0MH0.0QR8HkMRsPjPWM2wEuJgQ1Vav_DYZoNKdYcsUC9No4Q"
-                const response = await axios.get(`${REACT_APP_SERVER}/api/v1/Bike`, {
-                    headers: {
-                        Authorization: `Bearer ${token}` // Include the bearer token in the request headers
+    const fetchBikes = async () => {
+        try {
+            setIsLoading(true)
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFyYSIsImlhdCI6MTcxNTU2ODQ0MH0.0QR8HkMRsPjPWM2wEuJgQ1Vav_DYZoNKdYcsUC9No4Q"
+            // const response = await axios.get('http://localhost:3000/api/v1/Bike');
+            const response  = await axios.get('http://localhost:3000/api/v1/Bike',
+                {
+                headers:
+                    {
+                    Authorization: `Bearer ${token}`
                     }
-                });
-                setItems(response.data);
-                setIsLoading(false);
-                itemsSize = 11;
-            } catch (error) {
-                console.error('Error fetching items:', error);
-                setError('Error fetching items');
-                setIsLoading(false);
-            }
-        };
+            });
+            console.log("STATE",items)
+            setItems(response.data);
+            setItemSize(response.data.length);
 
-        fetchItems();
-
+        } catch (error) {
+            console.error('Error fetching bikes:', error);
+            setError('Error fetching bikes');
+        }
+        setIsLoading(false);
+    }
+        fetchBikes();
     }, []);
+
+
 
     return (
         <div>
-            <h2>Bike Items {itemsSize}</h2>
+            <h2>Bike Items ({itemSize}): </h2>
             {isLoading ? (
                 <p>Loading...</p>
             ) : error ? (
                 <p>{error}</p>
             ) : (
                 <ul>
-                    {items.map((item) => (
-                        <li key={item.id}>
-                            <p>Make: {item.make}</p>
-                            <p>Model: {item.model}</p>
-                            <p>Color: {item.color}</p>
-                            <p>Price: ${item.price}</p>
-                            <p>Type: {item.type}</p>
+                    {/*{items.data.Bikes.map((item, index) => ())}*/}
+                    {items.map(i => (
+                        <li key={i.id}>
+                            <p>Name: {i.nameFirst}</p>
+                            <p>Last: {i.nameLast}</p>
+                            <p>Budget: ${i.budget}</p>
+                            <p>Owns: {i.Bikes.lengthgit add}</p>
+                            {/*<p>Price: ${i.price}</p>*/}
+                            {/*<p>Type: {i.type}</p>*/}
                         </li>
                     ))}
                 </ul>
@@ -59,5 +64,5 @@ const Landing = () => {
         </div>
     );
 };
-
 export default Landing;
+
