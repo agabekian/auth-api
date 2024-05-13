@@ -38,7 +38,6 @@ const Landing = () => {
     }, []);
 
 
-
     return (
         <div>
             <h2>Bike Items ({itemSize}): </h2>

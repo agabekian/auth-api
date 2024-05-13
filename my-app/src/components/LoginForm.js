@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Landing from './Landing';
+
 
 // const REACT_APP_SERVER = process.env.REACT_APP_SERVER;
 const REACT_APP_SERVER = "http://localhost:3000";
