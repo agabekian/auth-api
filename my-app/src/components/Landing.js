@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-<h1>
-    HEllo from landing page
-</h1>
+const Landing = () => {
+    <h1>HEllo from landing page</h1>
+}
+
+
+export default Landing

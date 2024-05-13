@@ -1,25 +1,30 @@
 'use strict';
 
-const { Sequelize, DataTypes } = require('sequelize');
-const Collection = require('./data-collection.js');
-const Collection2 = require('./collection.js');
 const environment = process.env.NODE_ENV;
 const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
 const testOrProduction = (environment === 'test' || environment === 'production');
 
-// const sequelize = new Sequelize(DATABASE_URL, testOrProduction ? {logging: false} : {});
+const { Sequelize, DataTypes } = require('sequelize');
+
 const sequelize = new Sequelize(
     DATABASE_URL, {
-      dialect: 'postgres', // purpose?
-      logging: false
+        dialect: 'postgres', // purpose?
+        logging: false
     });
 
-const customersSchema = require('./customers/model');
-const bikeSchema = require('./bike/model');
+const Collection = require('./data-collection.js');
 
-const customersModel = customersSchema(sequelize, DataTypes);
+const customerSchema =
+    require('./customers/model');
+const bikeSchema =
+    require('./bike/model');
+
+const customerModel = customerSchema(sequelize, DataTypes);
 const bikeModel = bikeSchema(sequelize, DataTypes)
 const userModel = require('../models/users/users.js');
+
+// const Collection2 = require('./collection.js');
+// const sequelize = new Sequelize(DATABASE_URL, testOrProduction ? {logging: false} : {});
 
 // module.exports = {
 //   db: sequelize,
@@ -28,19 +33,22 @@ const userModel = require('../models/users/users.js');
 //   users: userModel(sequelize, DataTypes), //??
 // };
 
+// foreign key is the column name in the child table that
+// references the sourceKey in the parent table
+customerModel.hasMany(bikeModel,
+    {foreignKey: 'customerId', sourceKey: 'id'});
+bikeModel.belongsTo(customerModel,
+    {foreignKey: 'customerId', targetKey: 'id'})
 
-
-// foreign key is the column name in the child table that references the sourceKey in the parent table
-customersModel.hasMany(customersModel, {foreignKey: 'bikeId', sourceKey: 'id'});
-bikeModel.belongsTo(customersModel, {foreignKey: 'customerId', targetKey: 'id'})
-
-const customersCollection = new Collection(customersModel);
+const customerCollection = new Collection(customerModel);
 const bikeCollection = new Collection(bikeModel)
 
 module.exports = {
   db: sequelize,          // -->./index.js
-  Customers: customersCollection,
-  Bikes: bikeCollection
-};
 
-// const sequelize = new Sequlize('dialect://connection.string'); simpler?
+    Customers: customerCollection,
+
+    Bike: bikeCollection,
+
+    users: userModel(sequelize, DataTypes), //??
+};

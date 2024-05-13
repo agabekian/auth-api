@@ -6,11 +6,11 @@ const bikeModel = (sequelize, DataTypes) => sequelize.define('Bike', {
     color: {type: DataTypes.STRING, required: true},
     price: {type: DataTypes.INTEGER, required: true},
     type: {type: DataTypes.ENUM('road', 'mountain', 'hybrid', 'folding'), required: true},
-    //status rare - vintage -etc
     customerId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        // allowNull: false,
     },
+    //status rare - vintage -etc
 });
 
 module.exports = bikeModel;

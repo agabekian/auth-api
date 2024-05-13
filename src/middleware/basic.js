@@ -1,10 +1,10 @@
 'use strict';
 
 const base64 = require('base-64');
-const {users} = require('../models/index');
+const {users} = require('../models/');
 
 module.exports = async (req, res, next) => {
-    console.log("checking BASIC")
+    console.log("checking BASIC", req.body.authorization);
     if (!req.headers.authorization) { //ok
         return _authError();
     }

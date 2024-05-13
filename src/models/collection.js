@@ -7,7 +7,6 @@ class Collection {
     }
 
     // CRUD METHODS
-
     async create( data ) {
         try {
             let record = await this.model.create(data);
