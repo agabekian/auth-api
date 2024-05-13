@@ -54,7 +54,7 @@ const Landing = () => {
                             <p>Name: {i.nameFirst}</p>
                             <p>Last: {i.nameLast}</p>
                             <p>Budget: ${i.budget}</p>
-                            <p>Owns: {i.Bikes.lengthgit add}</p>
+                            <p>Owns: {i.Bikes.length}</p>
                             {/*<p>Price: ${i.price}</p>*/}
                             {/*<p>Type: {i.type}</p>*/}
                         </li>
