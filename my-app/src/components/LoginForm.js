@@ -14,7 +14,6 @@ const LoginForm = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
         try {
             const token = btoa(`${username}:${password}`);
             const response = await axios.post(
