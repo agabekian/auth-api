@@ -34,7 +34,7 @@ const LoginForm = () => {
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('An error occurred while logging in');
+            setError('error occurred while logging in');
         }
     };
 
