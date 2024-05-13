@@ -27,7 +27,7 @@ const LoginForm = () => {
                 console.log("You're in, touch nothing but the lamp!");
                 const token = response.data.token;
                 const bear = localStorage.getItem('accessToken', token);
-                console.log("BEAR",bear)
+                console.log("BEARer",bear)
                 setIsLoggedIn(true);
             } else {
                 setError('Invalid username or password');
