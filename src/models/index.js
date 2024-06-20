@@ -5,36 +5,35 @@ const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
 const testOrProduction = (environment === 'test' || environment === 'production');
 const Collection = require('./collection.js');
 
-const {Sequelize, DataTypes} = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(
     DATABASE_URL, {
-        dialect: 'postgres', // purpose?
+        dialect: 'postgres',
         logging: false
-    });
+    }
+);
 
 const userModel = require('../models/users/users.js');
 const customerSchema = require('./customers/model');
 const bikeSchema = require('./bike/model');
-const inventoryModel = require('./inventory');
+const inventorySchema = require('./inventory');
 
 const customerModel = customerSchema(sequelize, DataTypes);
-const bikeModel = bikeSchema(sequelize, DataTypes)
+const bikeModel = bikeSchema(sequelize, DataTypes);
+const inventoryModel = inventorySchema(sequelize, DataTypes);
 
-// foreign key is the column name in the child table that references
-// the sourceKey in the parent table
-customerModel.hasMany(bikeModel,
-    {foreignKey: 'customerId', sourceKey: 'id'});
-bikeModel.belongsTo(customerModel,
-    {foreignKey: 'customerId', targetKey: 'id'})
+customerModel.hasMany(bikeModel, { foreignKey: 'customerId', sourceKey: 'id' });
+bikeModel.belongsTo(customerModel, { foreignKey: 'customerId', targetKey: 'id' });
 
 const customerCollection = new Collection(customerModel);
-const bikeCollection = new Collection(bikeModel)
+const bikeCollection = new Collection(bikeModel);
+const inventoryCollection = new Collection(inventoryModel);
 
 module.exports = {
-    db: sequelize,          // -->./index.js
+    db: sequelize,
     Customers: customerCollection,
     Bike: bikeCollection,
-    Inventory: inventoryModel(sequelize, DataTypes),
+    Inventory: inventoryCollection,
     users: userModel(sequelize, DataTypes)
 };

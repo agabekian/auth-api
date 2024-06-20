@@ -7,7 +7,7 @@ const dataModules = require('../models');
 const bearerAuth = require('../middleware/bearer.js')
 const permissions = require('../middleware/acl.js')
 
-const {Customers, Bike} = require("../models/index.js");
+const {Customers, Bike, Inventory} = require("../models/index.js");
 
 router.param('model', (req, res, next) => {
     console.log("check data modules", dataModules["Customers"])
@@ -33,7 +33,8 @@ router.param('model', (req, res, next) => {
 router.get('/greet', greet);
 router.get('/:model', bearerAuth, handleGetAll);
 router.get('/:model/:id', bearerAuth, handleGetOne);
-router.post('/:model', bearerAuth, permissions("create"), handleCreate);
+// router.post('/:model', bearerAuth, permissions("create"), handleCreate);
+router.post('/:model', bearerAuth, handleCreate);
 router.put('/:model/:id', bearerAuth, permissions("update"), handleUpdate);
 router.delete('/:model/:id', bearerAuth, permissions("delete"), handleDelete);
 
@@ -41,16 +42,16 @@ function greet(req, res) {
     res.send("Welcommen !")
 }
 
-const Model = Customers;
+const Model = Inventory;
 
 async function handleGetAll(request, response) {
-    console.log("MMMMMMOdel", Model)
-    let data = await Model.read(null, {
-        include: {
-            model: Bike.model
-        }
-    });
-    response.status(200).json(data);
+    try {
+        let data = await Inventory.model.findAll(); // Fetch all inventory records
+        response.status(200).json(data);
+    } catch (error) {
+        console.error("Error fetching inventory data:", error);
+        response.status(500).json({ error: error.message });
+    }
 }
 
 async function handleGetOne(req, res) {
