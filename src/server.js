@@ -9,9 +9,7 @@ const errorHandler = require('./error-handlers/500.js');
 const logger = require('./middleware/logger.js');
 //
 // app.use(cors());
-app.use(cors({
-  origin: 'http://localhost:3001'
-}));
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
